@@ -25,8 +25,8 @@ COLOURS = {
 
 def get_colour_name(date_string: str):
     response = requests.get(
-        "https://sharp.clau.space/api/colour-of-the-day",
-        data={"date": date_string},
+        "https://sharp.clau.space/api/colour-of-the-day/",
+        params={"date_str": date_string},
         timeout=10,
     )
     return response.json()["colour"]
@@ -77,7 +77,8 @@ def main():
         times = 4
         hour_times = hour
     else:
-        times = 1
+        # times = 1
+        return
 
     if times:
         pixels.reverse()
