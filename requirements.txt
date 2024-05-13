@@ -1,5 +1,6 @@
 pygame==2.5.2
 sense-hat==2.6.0
+requests==2.31.0
 
 # RTIMULib==7.2.1
 git+https://github.com/RPi-Distro/RTIMULib@V7.2.1#subdirectory=Linux/python
