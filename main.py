@@ -60,6 +60,9 @@ def main():
     minutes = current_time.tm_min
     hour = current_time.tm_hour
 
+    if hour > 12:
+        hour -= 12
+
     colour_name = get_colour_name(
         f"{current_time.tm_year}-{current_time.tm_mon}-{current_time.tm_mday}"
     )
