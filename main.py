@@ -5,6 +5,7 @@ Every quarter hour the bell rings. At the hour, the bell also rings according to
 The sense hat displays the appropriate colour for the season.
 """
 
+import os
 import time
 
 import pygame
@@ -12,6 +13,8 @@ import requests
 from sense_hat import SenseHat
 
 sense = SenseHat()
+
+base_path = os.path.dirname(os.path.realpath(__file__))
 
 COLOURS = {
     "green": (0, 128, 43),
@@ -88,14 +91,16 @@ def main():
         pixels.reverse()
         sense.set_pixels(pixels)
         pygame.mixer.init()
-        pygame.mixer.music.load("assets/quarter_bell.wav")
+        quarter_bell_path = os.path.join(base_path, "assets", "quarter_bell.wav")
+        pygame.mixer.music.load(quarter_bell_path)
         pygame.mixer.music.set_volume(0.5)
 
         for _ in range(times):
             ring_bell()
 
         if hour_times:
-            pygame.mixer.music.load("assets/hour_bell.wav")
+            hour_bell_path = os.path.join(base_path, "assets", "hour_bell.wav")
+            pygame.mixer.music.load(hour_bell_path)
             for _ in range(hour_times):
                 ring_bell()
 
