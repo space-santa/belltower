@@ -80,7 +80,8 @@ def main():
         times = 4
         hour_times = hour
     else:
-        # times = 1
+        # times = 4
+        # hour_times = 3
         return
 
     if times:
@@ -88,6 +89,7 @@ def main():
         sense.set_pixels(pixels)
         pygame.mixer.init()
         pygame.mixer.music.load("assets/quarter_bell.wav")
+        pygame.mixer.music.set_volume(0.5)
 
         for _ in range(times):
             ring_bell()
@@ -97,6 +99,7 @@ def main():
             for _ in range(hour_times):
                 ring_bell()
 
+        time.sleep(1)
     sense.clear((0, 0, 0))
 
 
