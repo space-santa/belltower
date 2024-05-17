@@ -58,19 +58,8 @@ def ring_bell():
         continue
 
 
-def main():
-    current_time = time.localtime()
-    minutes = current_time.tm_min
-    hour = current_time.tm_hour
-
-    if hour > 12:
-        hour -= 12
-
-    colour_name = get_colour_name(
-        f"{current_time.tm_year}-{current_time.tm_mon}-{current_time.tm_mday}"
-    )
-    pixels = get_pixelmap(colour_name)
-
+def determine_rings(minutes, hour):
+    times = 0
     hour_times = 0
 
     if minutes == 15:
@@ -82,12 +71,26 @@ def main():
     elif minutes == 0:
         times = 4
         hour_times = hour
-    else:
-        # times = 4
-        # hour_times = 3
-        return
+
+    return times, hour_times
+
+
+def main(times=0, hour_times=0):
+    current_time = time.localtime()
+    minutes = current_time.tm_min
+    hour = current_time.tm_hour
+
+    if hour > 12:
+        hour -= 12
+
+    if times == 0:
+        times, hour_times = determine_rings(minutes, hour)
 
     if times:
+        colour_name = get_colour_name(
+            f"{current_time.tm_year}-{current_time.tm_mon}-{current_time.tm_mday}"
+        )
+        pixels = get_pixelmap(colour_name)
         pixels.reverse()
         sense.set_pixels(pixels)
         pygame.mixer.init()
