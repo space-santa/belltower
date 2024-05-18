@@ -16,3 +16,10 @@ systemctl daemon-reload
 systemctl enable belltower
 # systemctl status belltower
 ```
+
+```
+cp belltower_joystick.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable belltower_joystick
+# systemctl status belltower_joystick
+```
