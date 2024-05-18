@@ -10,9 +10,18 @@ import time
 
 import pygame
 import requests
-from sense_hat import SenseHat
 
-sense = SenseHat()
+from src.utils import determine_rings
+
+try:
+    from sense_hat import SenseHat
+
+    sense = SenseHat()
+except OSError as e:
+    print(e)
+    from src.sense_mock import SenseMock
+
+    sense = SenseMock()
 
 base_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -58,33 +67,11 @@ def ring_bell():
         continue
 
 
-def determine_rings(minutes, hour):
-    times = 0
-    hour_times = 0
-
-    if minutes == 15:
-        times = 1
-    elif minutes == 30:
-        times = 2
-    elif minutes == 45:
-        times = 3
-    elif minutes == 0:
-        times = 4
-        hour_times = hour
-
-    return times, hour_times
-
-
-def main(times=0, hour_times=0):
+async def main(times=0, hour_times=0, volume=0.2):
     current_time = time.localtime()
-    minutes = current_time.tm_min
-    hour = current_time.tm_hour
-
-    if hour > 12:
-        hour -= 12
 
     if times == 0:
-        times, hour_times = determine_rings(minutes, hour)
+        times, hour_times = determine_rings()
 
     if times:
         colour_name = get_colour_name(
@@ -96,7 +83,7 @@ def main(times=0, hour_times=0):
         pygame.mixer.init()
         quarter_bell_path = os.path.join(base_path, "assets", "quarter_bell.wav")
         pygame.mixer.music.load(quarter_bell_path)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(volume)
 
         for _ in range(times):
             ring_bell()
@@ -112,4 +99,5 @@ def main(times=0, hour_times=0):
 
 
 # Call the job function
-main()
+if __name__ == "__main__":
+    main()
