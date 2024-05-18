@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from signal import pause
 
 import requests

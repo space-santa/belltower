@@ -3,7 +3,7 @@ Description=Belltower Joystick Handler
 After=network.target sound.target
 
 [Service]
-ExecStart="python /home/space/belltower/joystick.py"
+ExecStart=/home/space/belltower/joystick.py
 WorkingDirectory=/home/space/belltower
 User=space
 Group=space
