@@ -1,6 +1,6 @@
 ```
 # Essentials
-sudo apt install sense-hat python3-pygame pulseaudio
+sudo apt install sense-hat python3-pygame pulseaudio python3-fastapi python3-requests
 
 # We want to run this using cron
 crontab -e
