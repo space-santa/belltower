@@ -1,5 +1,5 @@
 [Unit]
-Description=Belltower Server
+Description=Belltower Joystick Handler
 After=network.target sound.target
 
 [Service]
