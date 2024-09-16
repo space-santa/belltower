@@ -16,7 +16,7 @@ import requests
 from src.utils import determine_rings
 
 try:
-    from env import IOTA_ACCESS_TOKEN
+    from .env import IOTA_ACCESS_TOKEN
 except ImportError as e:
     print(e)
     IOTA_ACCESS_TOKEN = "fake news"
@@ -25,7 +25,7 @@ try:
     from sense_hat import SenseHat
 
     sense = SenseHat()
-except OSError as e:
+except ModuleNotFoundError as e:
     print(e)
     from src.sense_mock import SenseMock
 
@@ -107,7 +107,7 @@ def send_measurements():
     )
 
     if response.status_code != 202:
-        raise MainError(f"Couldn't send measurements: {e}")
+        raise MainError(f"Couldn't send measurements: {response}")
 
 
 async def main(times=0, hour_times=0, volume=0.2):

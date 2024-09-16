@@ -23,3 +23,12 @@ class SenseMock:
                 r, g, b = colour
                 print(f"\033[38;2;{r};{g};{b}m0\033[0m", end="")
             print()
+
+    def get_temperature(self):
+        return 25.55
+
+    def get_pressure(self):
+        return 1234.56
+
+    def get_humidity(self):
+        return 69.0
