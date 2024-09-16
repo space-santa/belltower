@@ -5,6 +5,8 @@ Every quarter hour the bell rings. At the hour, the bell also rings according to
 The sense hat displays the appropriate colour for the season.
 """
 
+import datetime
+import json
 import os
 import time
 
@@ -12,6 +14,12 @@ import pygame
 import requests
 
 from src.utils import determine_rings
+
+try:
+    from env import IOTA_ACCESS_TOKEN
+except ImportError as e:
+    print(e)
+    IOTA_ACCESS_TOKEN = "fake news"
 
 try:
     from sense_hat import SenseHat
@@ -33,6 +41,10 @@ COLOURS = {
     "pink": (255, 102, 255),
     "brown": (204, 153, 0),
 }
+
+
+class MainError(Exception):
+    pass
 
 
 def get_colour_name(date_string: str):
@@ -67,8 +79,41 @@ def ring_bell():
         continue
 
 
+def send_measurements():
+    temperature = sense.get_temperature()
+    pressure = sense.get_pressure()
+    humidity = sense.get_humidity()
+    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    payload = {
+        "device_name": "SenseHat",
+        "device_datetime": timestamp,
+        "sensors": [
+            {"name": "TEMP", "sensor_type": "Temperature [C]", "value": temperature},
+            {"name": "HUM", "sensor_type": "Humidity [%]", "value": humidity},
+            {"name": "PRESS", "sensor_type": "Pressure [hPa]", "value": pressure},
+        ],
+    }
+
+    headers = {
+        "Authorization": f"Token {IOTA_ACCESS_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    response = requests.post(
+        "https://iota.clau.space/api/add_measurement/",
+        headers=headers,
+        data=json.dumps(payload),
+    )
+
+    if response.status_code != 202:
+        raise MainError(f"Couldn't send measurements: {e}")
+
+
 async def main(times=0, hour_times=0, volume=0.2):
     current_time = time.localtime()
+
+    send_measurements()
 
     if times == 0:
         times, hour_times = determine_rings()
