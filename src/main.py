@@ -51,7 +51,7 @@ class MainError(Exception):
 def get_colour_name(date_string: str):
     response = requests.get(
         "https://sharp.clau.space/api/colour-of-the-day/",
-        params={"date_str": date_string},
+        params={"date": date_string},
         timeout=10,
     )
     return response.json()["colour"]
