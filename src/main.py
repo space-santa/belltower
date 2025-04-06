@@ -13,10 +13,10 @@ import time
 import pygame
 import requests
 
-from src.utils import determine_rings
+from utils import determine_rings
 
 try:
-    from .env import IOTA_ACCESS_TOKEN
+    from env import IOTA_ACCESS_TOKEN
 except ImportError as e:
     print(e)
     IOTA_ACCESS_TOKEN = "fake news"
@@ -49,9 +49,10 @@ class MainError(Exception):
 
 
 def get_colour_name(date_string: str):
+    print(date_string)
     response = requests.get(
         "https://sharp.clau.space/api/colour-of-the-day/",
-        params={"date_str": date_string},
+        params={"date": date_string},
         timeout=10,
     )
     return response.json()["colour"]
@@ -121,7 +122,7 @@ async def main(times=0, hour_times=0, volume=0.2):
 
     if times:
         colour_name = get_colour_name(
-            f"{current_time.tm_year}-{current_time.tm_mon}-{current_time.tm_mday}"
+            f"{current_time.tm_year:04}-{current_time.tm_mon:02}-{current_time.tm_mday:02}"
         )
         pixels = get_pixelmap(colour_name)
         pixels.reverse()
@@ -145,5 +146,12 @@ async def main(times=0, hour_times=0, volume=0.2):
 
 
 # Call the job function
+import asyncio
+
+def main2():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main(2, 4))
+
 if __name__ == "__main__":
-    main()
+    main2()
+
