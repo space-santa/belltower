@@ -8,6 +8,7 @@ WorkingDirectory=/home/space/belltower
 User=space
 Group=space
 Restart=always
+Environment="PATH=/home/space/belltower/.venv/bin:$PATH"
 
 [Install]
 WantedBy=multi-user.target
