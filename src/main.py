@@ -13,7 +13,7 @@ import time
 import pygame
 import requests
 
-from utils import determine_rings
+from .utils import determine_rings
 
 try:
     from env import IOTA_ACCESS_TOKEN
@@ -115,7 +115,7 @@ def send_measurements():
 async def main(times=0, hour_times=0, volume=0.2):
     current_time = time.localtime()
 
-    send_measurements()
+    # send_measurements()
 
     if times == 0:
         times, hour_times = determine_rings()
