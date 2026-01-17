@@ -26,3 +26,14 @@ systemctl daemon-reload
 systemctl enable belltower_joystick
 # systemctl status belltower_joystick
 ```
+
+# Soundcard
+
+To set the second soundcard as the default in ALSA, follow these steps:
+Use the command `cat /proc/asound/cards` to find the desired soundcard.
+Create a configuration file in `/etc/asound.conf` with the following entries:
+
+```
+defaults.pcm.card 1
+defaults.ctl.card 1
+```
