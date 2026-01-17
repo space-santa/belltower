@@ -1,3 +1,6 @@
+Note that on a RPi 2b I had to install all the requirements line by line to make it work.
+Probably something with not enough memory. My guess, I didn't do any investigation.
+
 ```
 # Essentials
 sudo apt install sense-hat python3-pygame pulseaudio python3-fastapi python3-requests
